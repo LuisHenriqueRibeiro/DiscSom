@@ -18,7 +18,17 @@ public class ProdutoController {
 	private ProdutoService produtoService;
 	
 	@RequestMapping("/{descricao}")
-	public List<Produto> getProdutosPorEstado(@PathVariable("descricao") String descricao) {
-		return produtoService.getProdutosPorEstado(descricao);
+	public List<Produto> getProdutosPorDescricao(@PathVariable("descricao") String descricao) {
+		return produtoService.getProdutosPorDescricao(descricao);
+	}
+	@RequestMapping("/catalogo")
+	public List<Produto> getCatalogoDeProduto()
+	{
+		return produtoService.getProdutosDoCatalogo();
+	}
+	
+	@RequestMapping("categoria/{idCategoria}")
+	public List<Produto> getProdutosPorCategoria(@PathVariable("idCategoria") String idCategoria) {
+		return produtoService.getProdutosPorCategoria(idCategoria);
 	}
 }
