@@ -21,7 +21,12 @@ public class PedidoController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public Pedido realizaPedido(@RequestBody List<ItemDoPedidoDTO> produtos) {
-		return pedidoService.realizaPedido(produtos);
+		boolean realizou = pedidoService.baixaNoEstque(produtos);
+		if(realizou)
+		{
+			return pedidoService.realizaPedido(produtos);
+		}
+		return null;
 	}
 	
 	@RequestMapping("/{id}")

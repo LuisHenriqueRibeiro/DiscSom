@@ -22,9 +22,28 @@ public class Produto {
 
 	private String descricao;
 
+	private int quantidade;
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
 	private BigDecimal preco;
-	
-	@ManyToOne @JoinColumn(name = "categoriaId")
+
+	@ManyToOne
+	@JoinColumn(name = "categoriaId")
 	private Categoria categoria;
 
 	public Long getId() {
