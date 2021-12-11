@@ -82,4 +82,8 @@ public class PedidoService {
 		return aprova;
 	}
 
+	public int getMaxIdPedido() {
+		return pedidoRepository.getMaxIdPedido();
+	}
+
 }

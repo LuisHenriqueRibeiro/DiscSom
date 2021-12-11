@@ -2,6 +2,7 @@ package ribeiro.luis.discso.catalogo.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import ribeiro.luis.discso.catalogo.dto.ItemDoPedidoDTO;
 import ribeiro.luis.discso.catalogo.model.Pedido;
 import ribeiro.luis.discso.catalogo.service.PedidoService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("pedido")
 public class PedidoController {
@@ -32,6 +34,11 @@ public class PedidoController {
 	@RequestMapping("/{id}")
 	public Pedido getPedidoPorId(@PathVariable Long id) {
 		return pedidoService.getPedidoPorId(id);
+	}
+	@RequestMapping("/maxId")
+	public int getMaxIdPedido()
+	{
+		return pedidoService.getMaxIdPedido();
 	}
 }
 	
