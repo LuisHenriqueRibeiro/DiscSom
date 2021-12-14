@@ -16,3 +16,17 @@
 {
     padding: 15%;
 }
+.pedidos
+{
+   display: flex;
+   flex-wrap: wrap;
+}
+.produtos
+{
+    display: flex;
+    flex-wrap: wrap;
+}
+.produtoCompra
+{
+    margin-left: 35%;
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Comprar</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <a class="navbar-brand text-secundary" href="Home.html">DiscSom</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="Home.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="Catalogo.html">Catalogo</a>
+                <a class="nav-item nav-link" href="Compra.html">Comprar</a>
+                <a class="nav-item nav-link" href="Pedidos.html">Pedidos</a>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <form onsubmit="pesquisarProduto()">
+        <label>Qual produto deseja comprar?</label>
+        <input type="text" name="nomeProdutoPesquisa" id="nomeProdutoPesquisa">
+        <button>Pesquisar</button>
+    </form>
+    </section>
+    <section class="produtoCompra">
+        <form>
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="http://projetosctibauru.com.br/w72BEquipe2/cinza.png" id="ImagemProduto" alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title"><input type="text" id="Nome" value="Nome" readonly></h5>
+                <p class="card-text"><input type="text" id="Descricao" readonly value="Pesquise para comprar"></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item"><input type="text" id="Estoque" value="Estoque" readonly></li>
+                <li class="list-group-item"><input type="text" id="Preco" value="Preço" readonly></li>
+                </ul>
+                <div class="card-body">
+                <input type="number" min="1" id="QuantidadePedida">
+                <a href="#" class="card-link"><input type="button" value="Comprar"></a>
+                </div>
+            </div>
+        </form>
+    </section>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get("id");
+        let produto ={
+            id: "",
+            nome: "",
+            imagem: "",
+            descricao: "",
+            quantidade: "",
+            preco: "",
+            categoria: {
+                id: "",
+                nome: ""
+            }
+        };
+
+        function pesquisarProduto() {
+            event.preventDefault();
+
+            let nome = document.querySelector("#nomeProdutoPesquisa");
+            let request = new XMLHttpRequest();
+            request.open("GET", "http://localhost:8081/produto/nome/"+nome.value, false);
+            request.send();
+           produto = JSON.parse(request.responseText);
+           console.log(produto);        
+           
+           gerarForm();  
+        }
+        
+        if(id != null)
+        {
+            let request = new XMLHttpRequest();
+            request.open("GET", "http://localhost:8081/produto/Id/"+id, false);
+            request.send();
+            produto = JSON.parse(request.responseText);
+            gerarForm();
+        }
+
+        function gerarForm()
+        {
+            let imagem  = document.querySelector("#ImagemProduto");
+            let nome = document.querySelector("#Nome");
+            let descricao = document.querySelector("#Descricao");
+            let estoque = document.querySelector("#Estoque");
+            let preco = document.querySelector("#Preco");
+            let quantidadePedida = document.querySelector("#QuantidadePedida");
+            nome.value = produto.nome;
+            descricao.value = produto.descricao;
+            estoque.value = produto.quantidade;
+            preco.value = produto.preco;
+            imagem.setAttribute("src",produto.imagem);
+            quantidadePedida.setAttribute("max",produto.quantidade);
+
+        }
+    </script>
+</body>
+
+</html>

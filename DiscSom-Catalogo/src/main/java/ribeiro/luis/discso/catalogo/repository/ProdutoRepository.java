@@ -27,4 +27,11 @@ public interface ProdutoRepository extends CrudRepository<Produto, Long> {
 	@Query(value="SELECT p.id, p.nome, p.descricao,p.imagem,p.quantidade, p.preco,p.categoria_id FROM Produto p "
 			+ "WHERE p.id = :ID",nativeQuery = true)
 	List<Produto> trazerEstoque(@Param("ID") long id);
+	
+	@Query(value = "SELECT MAX(p.id) FROM Produto p",nativeQuery = true)
+	int getMaxIdProduto();
+	
+	@Query(value = "SELECT  p.id, p.nome, p.descricao,p.imagem,p.quantidade, p.preco,p.categoria_id FROM Produto p " +
+	"WHERE p.nome = :NOME", nativeQuery = true)
+	Produto buscarPorNome(@Param("NOME") String nome);
 }

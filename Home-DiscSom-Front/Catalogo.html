@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Catalogo</title>
@@ -7,8 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary" >
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <a class="navbar-brand text-secundary" href="Home.html">DiscSom</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,20 +19,58 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="Home.html">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" id="catalogo">Catalogo</a>
-                <a class="nav-item nav-link" href="#">Comprar</a>
-                <a class="nav-item nav-link" href="#">Pedidos</a>
+                <a class="nav-item nav-link" href="Catalogo.html">Catalogo</a>
+                <a class="nav-item nav-link" href="Compra.html">Comprar</a>
+                <a class="nav-item nav-link" href="Pedidos.html">Pedidos</a>
             </div>
         </div>
     </nav>
     <script>
+        let produtos = [{
+            id: "",
+            nome: "",
+            imagem: "",
+            descricao: "",
+            quantidade: "",
+            preco: "",
+            categoria: {
+                id: "",
+                nome: ""
+            }
+        }];
         let request = new XMLHttpRequest();
-        request.open("GET","http://localhost:8081/produto/catalogo", false);
+        request.open("GET", "http://localhost:8080/produtos/maiorId", false);
         request.send();
-        var Teste = request.responseText;
-        console.log(Teste);
-        document.write(Teste);
-
+        var maxId = request.responseText;
+        for (let i = 1; i <= maxId; i++) {
+            request.open("GET", "http://localhost:8080/produtos/buscaId/" + i, false);
+            request.send();
+            produtos[i] = JSON.parse(request.responseText);
+        }
+        document.write("<section class='produtos'>");
+        produtos.forEach(produto => {
+            if(produto.id != "")
+            {
+                console.log(produto);
+               document.write("<div class='card' style='width: 18rem;'>"+
+                "<img class='card-img-top' src='"+produto.imagem+"'alt='Card image cap'>"+
+                    "<div class='card-body'>"+
+                        "<h5 class='card-title'> Nome: "+produto.nome+"</h5>"+
+                        "<p class='card-text'> Autor: "+produto.descricao+"</p>"+
+                    "</div>"+
+                    "<ul class='list-group list-group-flush'>"+
+                        "<li class='list-group-item'> Preço: "+produto.preco+"</li>"+
+                        "<li class='list-group-item'> Estoque: "+produto.quantidade+"</li>"+
+                    "</ul>"+
+                    "<div class='card-body'>"+
+                        "<a href='Compra.html' class='card-link'>Pagina de Compras</a>"+
+                        "<a href='Compra.html?id="+produto.id+"' class='card-link'>Comprar</a>"+
+                    "</div>"+
+            "</div>"); 
+            }
+        })
+        document.write("</section>");
     </script>
 </body>
+
 </html>

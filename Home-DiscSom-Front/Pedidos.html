@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Catalogo</title>
@@ -7,8 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary" >
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <a class="navbar-brand text-secundary" href="Home.html">DiscSom</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,54 +19,67 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="Home.html">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" id="catalogo">Catalogo</a>
-                <a class="nav-item nav-link" href="#">Comprar</a>
-                <a class="nav-item nav-link" href="#">Pedidos</a>
+                <a class="nav-item nav-link" href="Catalogo.html">Catalogo</a>
+                <a class="nav-item nav-link" href="Compra.html">Comprar</a>
+                <a class="nav-item nav-link" href="Pedidos.html">Pedidos</a>
             </div>
         </div>
     </nav>
     <script>
         let pedidos = [{
-            id:"",
-            tempoDePreparo:"",
-            status:"",
-            itens:[{
-                id:"",
-                quantidade:"",
-                produto:{
-                    id:"",
-                    nome:"",
-                    imagem:"",
-                    quantidade:"",
-                    preco:"",
-                    categoria:{
-                        id:"",
-                        nome:""
+            id: "",
+            tempoDePreparo: "",
+            status: "",
+            itens: [{
+                id: "",
+                quantidade: "",
+                produto: {
+                    id: "",
+                    nome: "",
+                    imagem: "",
+                    quantidade: "",
+                    preco: "",
+                    categoria: {
+                        id: "",
+                        nome: ""
                     }
                 }
             }]
         }];
         let request = new XMLHttpRequest();
-        request.open("GET","http://localhost:8081/pedido/maxId", false);
+        request.open("GET", "http://localhost:8081/pedido/maxId", false);
         request.send();
         var maxId = request.responseText;
         console.log(maxId);
-        for(let i = 1; i <= maxId ; i++)
-        {
-            request.open("GET","http://localhost:8081/pedido/"+i, false);
+        for (let i = 1; i <= maxId; i++) {
+            request.open("GET", "http://localhost:8081/pedido/" + i, false);
             request.send();
             console.log(i);
-            var Teste = JSON.parse(request.responseText);
-            console.log(Teste);
-            pedidos[i]= Teste;
+            pedidos[i] = JSON.parse(request.responseText);
         }
-        pedidos.forEach(pedido => {
-            document.write(pedido.id+"<br>");
-            pedido.itens.forEach(item => {
-                document.write(item.quantidade+" "+item.produto.nome+"<br>");
-            })
-        })
+        document.write("<section class='pedidos'>");
+            let total = 0;
+            pedidos.forEach(pedido => {
+            if (pedido.id != "") {
+                document.write("<div class='card' style='width: 18rem;'>");
+                document.write("<div class='card-header bg-info'>Pedido: "+pedido.id+"</div>");
+                document.write("<ul class='list-group list-group-flush'>");
+                pedido.itens.forEach(item => {
+                    document.write("<li class='list-group-item'>Id Produto : "+item.produto.id+"<br> Nome : "+item.produto.nome+"<br> Preço : "+item.produto.preco+"</li>");
+                                   
+                    total += parseInt(item.produto.preco);
+                })
+                document.write("<li class='list-group-item'>Valor Final : "+ total+"</li>");
+                document.write("</ul>");
+                document.write("</div>");
+            }
+            total=0;
+        });
+        document.write("</section>");
 
     </script>
 </body>
+
 </html>
+
+    
